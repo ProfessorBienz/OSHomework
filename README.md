@@ -35,3 +35,25 @@ Once code is in the main branch, GitHub actions will run the publicly available 
   
 
   
+
+## Part 2 : CMake
+CMake is a group of tools for compiling code on any given computer.  All homeworks for the course will be compiled with CMake.  You will need to make minimal changes to CMake throughout the semester, but it is very important to understand the basics of how CMake works.
+  
+### 2.a) Create a build folder
+All cmake commands should be run within a build folder so that they can be easily cleaned up.  Create a new folder in the homework0 repository called 'build'
+  
+### 2.b) Change directory into build
+Change the current directory to build (e.g. cd build)
+  
+### 2.c) Configure the current CMake directory
+To configure your compilation, type 'cmake ..' from within the build directory
+  
+### 2.d) Compile the codebase
+After the configuration successfully completes, you can compile the library with the command 'make'.  You should see an error that the linker cannot find the function 'return0()'.
+  
+### 2.e) Create a C or C++ file within the main repository directory (e.g. 'cd ..' from the build directory).  Edit this file to include the header file 'src.hpp'.  Create a method called 'int return0()' that returns the number 0.
+  
+### 2.f) Add new file to library
+Open the file CMakeLists.txt.  Near the bottom, a library called 'homework' is created.  Add your file to this library (e.g. below ${SRC_SOURCES} add \<your\_filename\>)
+  
+### 
