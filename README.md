@@ -14,6 +14,8 @@ All homework repositories will contain a submodule called 'cs_481_hw_src'.  Chan
 - git submodule init
 - git submodule update --remote
 
+#### STOP!  You need to complete Parts 2 and 3 before the completing steps 1.d, 1.e, and 1.f.
+
 ### 1.d) Push Changes
 After finished Parts 2 and 3, you will need to push all changes to your GitHub repository.  This can be done with the following commands:
 - git status : will show which files have been changed or added
@@ -21,4 +23,15 @@ After finished Parts 2 and 3, you will need to push all changes to your GitHub r
 - git commit -m "note about changes": will commit all changes
 - git push : will push commit to remote server (github.com)
   
-### 1.e) Merge to Master
+### 1.e) Merge to Main
+After you have completed the homework, merge all changes to the main branch!  This is important, the autograder can only run on master!  To merge changes, do the following : 
+  - git checkout main
+  - git merge homework0
+  - git commit "note about merge"
+  - git push
+
+### 1.f) Check GitHub Actions
+Once code is in the main branch, GitHub actions will run the publicly available portions of the autograder.  Make sure you pass all tests by going to your repository on github.com and clicking on the 'Actions' tab.  The most recent commit should show branch 'main' passes all tests.
+  
+
+  
