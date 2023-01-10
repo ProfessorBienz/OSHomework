@@ -56,4 +56,19 @@ After the configuration successfully completes, you can compile the library with
 ### 2.f) Add new file to library
 Open the file CMakeLists.txt.  Near the bottom, a library called 'homework' is created.  Add your file to this library (e.g. below ${SRC_SOURCES} add \<your\_filename\>)
   
-### 
+### 2.g) Reconfigure and compile code
+Go back into the build directory and run the configuration and compile commands again.  If you get an error, this may be due to an old cache.  In this case, remove the build directory (e.g. 'rm -rf build') and redo steps 2.a through 2.d.  The library and unit tests should now compile successfully.
+  
+#### Congratulations, you now know the basics of CMake!
+  
+## Part 3 : Googletest
+Googletest will be used to autograde parts of assignments throughout this course.  You will not need to use googletest for the homeworks.  However, you will have the option of submitting your own tests for each homework for extra credit.
+
+### 3.a) Open the file tests/additional_tests.cpp
+This is a shell of a test written with googletest.  The test is compiled with the file tests/CMakeLists.txt.
+  
+### 3.b) Edit the TEST method
+Edit this method to make sure that the method return0() returns the number 0.  This can be done with 'ASSERT_EQ(return0(), 0)'.  Additional googletest assertions are described at **http://google.github.io/googletest/reference/assertions.html**
+  
+### 3.c) Test for Correctness
+To test that your code changes and googletest unit tests are working, go back to the build folder and recompile your code ('make').  Then, run the tests with 'make test'.  This will run my provided unit tests (labeled Unit Tests) along with your new test (labeled Additional Tests).
