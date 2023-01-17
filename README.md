@@ -29,6 +29,8 @@ After you have completed the homework, merge all changes to the main branch!  Th
   - git merge homework0
   - git commit "note about merge"
   - git push
+**You will likely run into an error that says you are trying to merge unrelated histories.**  To fix this, type 'git merge homework0 --allow-unrelated-histories'.  You may have conflicts in the README and gitignore, which you can either fix or ignore (e.g. checkout old versions with commands such as 'git checkout .gitignore')
+
 
 ### 1.f) Check GitHub Actions
 Once code is in the main branch, GitHub actions will run the publicly available portions of the autograder.  Make sure you pass all tests by going to your repository on github.com and clicking on the 'Actions' tab.  The most recent commit should show branch 'main' passes all tests.
