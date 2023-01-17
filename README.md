@@ -26,10 +26,9 @@ After finished Parts 2 and 3, you will need to push all changes to your GitHub r
 ### 1.e) Merge to Main
 After you have completed the homework, merge all changes to the main branch!  This is important, the autograder can only run on master!  To merge changes, do the following : 
   - git checkout main
-  - git merge homework0
+  - git merge homework0  **You will likely run into an error that says you are trying to merge unrelated histories.**  To fix this, type 'git merge homework0 --allow-unrelated-histories'.  You may have conflicts in the README and gitignore, which you can either fix or ignore (e.g. checkout old versions with commands such as 'git checkout .gitignore')
   - git commit "note about merge"
   - git push
-**You will likely run into an error that says you are trying to merge unrelated histories.**  To fix this, type 'git merge homework0 --allow-unrelated-histories'.  You may have conflicts in the README and gitignore, which you can either fix or ignore (e.g. checkout old versions with commands such as 'git checkout .gitignore')
 
 
 ### 1.f) Check GitHub Actions
