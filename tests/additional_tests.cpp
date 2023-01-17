@@ -17,5 +17,4 @@ int main(int argc, char** argv)
 TEST(TLBTest, TestsIntests)
 {
     // Add your additional googletest unit tests here
-    ASSERT_EQ(return0(), 0);
 }
