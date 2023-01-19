@@ -20,6 +20,7 @@ set(hw_INCDIR ${CMAKE_CURRENT_SOURCE_DIR})
 ##################### 
 ## GOOGLETEST      ##
 #####################
+include(FetchContent)
 if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.5)
     set(GTEST_TAG 58d77fa8070e8cec2dc1ed015d66b454c8d78850)
 else()
