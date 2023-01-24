@@ -53,6 +53,7 @@ To configure your compilation, type 'cmake ..' from within the build directory
 After the configuration successfully completes, you can compile the library with the command 'make'.  You should see an error that the linker cannot find the function 'return0()'.
   
 ### 2.e) Create a C or C++ file within the main repository directory (e.g. 'cd ..' from the build directory).  Edit this file to include the header file 'src.hpp'.  Create a method called 'int return0()' that returns the number 0.
+To include src.hpp, you will need to add the following "#include "cs_481_hw_src/src.hpp"
   
 ### 2.f) Add new file to library
 Open the file CMakeLists.txt.  Near the bottom, a library called 'homework' is created.  Add your file to this library (e.g. below ${SRC_SOURCES} add \<your\_filename\>)
