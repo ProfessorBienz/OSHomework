@@ -55,3 +55,5 @@ add_subdirectory(cs_481_hw_src/tests)
 # Add Directory with Your Additional Unit Tests
 add_subdirectory(tests)
 
+# Subdirectory with Example Programs
+add_subdirectory(example)
