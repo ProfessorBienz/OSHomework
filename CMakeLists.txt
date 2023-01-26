@@ -56,4 +56,4 @@ add_subdirectory(cs_481_hw_src/tests)
 add_subdirectory(tests)
 
 # Subdirectory with Example Programs
-add_subdirectory(example)
+add_subdirectory(examples)
