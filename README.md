@@ -1,74 +1,50 @@
-# Homework 0 : GitHub, CMake, and Googletest
+# Homework 1 : Processes and CPU Scheduling
 
-## Part 1 : GitHub
-GitHub Classroom will be used for all homework assignments.  You will be given an initial repository.  Instructions for the assignment will be provided in the README.md.  Follow the steps below to complete the GitHub portion of Homework 0.
+## Part 1 : Processes
+For this part of the programming assignment, you will edit the file processes.cpp
 
-### 1.a) Clone the repository to a local machine
-You can clone the repository with 'git clone \<repository\_name\>.  The repository name can be found by clicking the green 'Code' button.  Click on the HTTPS tab if you use Github token authentification, and the SSH tab if you have setup an SSH key.  For more information on authentification methods, refer to the Homework 0 PDF on UNM Canvas.
+### 1.a) Create a child process
+Create a child process with the 'fork' method
 
-### 1.b) Checkout the homework0 branch
-The initial repository for this homework is in the branch called 'homework0'.  You can get access to this code with the command 'git checkout homework0'
+### 1.b) Create a grandchild process
+Have the child process create a child process of its own with with the 'fork' method.  We will refer to this as the grandchild method.
 
-### 1.c) Pull submodule changes
-All homework repositories will contain a submodule called 'cs_481_hw_src'.  Changes (such as additions to the unit tests) may be made to this submodule at any time.  Get access to the most up-to-date submodule repository with the following two commands:
-- git submodule init
-- git submodule update --remote
+### 1.c) Call appropriate methods
+Three methods have been declared in src.hpp: 'parent()', 'child()', and 'grandparent()'.  Have the grandchild process call 'grandchild()', the child process call 'child()', and the parent process call 'parent()'.
 
-#### STOP!  You need to complete Parts 2 and 3 before the completing steps 1.d, 1.e, and 1.f.
+### 1.d) Order the processes
+Guarantee that the grandchild method is called before the child method, which is called before the parent method.
 
-### 1.d) Push Changes
-After finished Parts 2 and 3, you will need to push all changes to your GitHub repository.  This can be done with the following commands:
-- git status : will show which files have been changed or added
-- git add <filename> : will add the file to be committed
-- git commit -m "note about changes": will commit all changes
-- git push : will push commit to remote server (github.com)
-  
-### 1.e) Merge to Main
-After you have completed the homework, merge all changes to the main branch!  This is important, the autograder can only run on master!  To merge changes, do the following : 
-  - git checkout main
-  - git merge homework0
-  - git commit "note about merge"
-  - git push
+## Part 2 : CPU Scheduling
+For this part of the programming assignment, you will edit the file scheduler.cpp.  You will write two CPU scheduling algorithms: a priority scheduler and a round-robin + priority scheduler.  **Assume all jobs require only CPU time, and have no I/O requirements.**  You are given an array Job* job, where Job is a struct containing the following 
+- idx : the position in which the job arrived into the ready queue.
+- priority : the priority of the job in the scheduler, with priority 0 highest, followed by priority 1, etc.
+- time : the total time required by the job
+- run_job : the function that the job will execute.  These functions are non-associative and must be run in the correct order to get the correct answer.  This function takes an integer 't', the amount of time for which the job will be executed.  Assume 'time' and this 't' are the same unit (e.g. both in seconds).
 
-### 1.f) Check GitHub Actions
-Once code is in the main branch, GitHub actions will run the publicly available portions of the autograder.  Make sure you pass all tests by going to your repository on github.com and clicking on the 'Actions' tab.  The most recent commit should show branch 'main' passes all tests.
-  
+### 2.a) Priority Scheduler
+Add a priority scheduler to the method 'priority(...)'.  This scheduler should do the following:
+- The job with the highest priority runs first.  Assume priority 0 is highest, priority 1 is next highest, and so on.
+- If multiple jobs have the same priority, the scheduler will use a FIFO scheduler for tiebreaking. 
+- Each job will run for its entirety
+- A job can be run with the following : jobs[i]->run_job(t) where t is the amount of time to run job i 
 
-  
 
-## Part 2 : CMake
-CMake is a group of tools for compiling code on any given computer.  All homeworks for the course will be compiled with CMake.  You will need to make minimal changes to CMake throughout the semester, but it is very important to understand the basics of how CMake works.
-  
-### 2.a) Create a build folder
-All cmake commands should be run within a build folder so that they can be easily cleaned up.  Create a new folder in the homework0 repository called 'build'
-  
-### 2.b) Change directory into build
-Change the current directory to build (e.g. cd build)
-  
-### 2.c) Configure the current CMake directory
-To configure your compilation, type 'cmake ..' from within the build directory
-  
-### 2.d) Compile the codebase
-After the configuration successfully completes, you can compile the library with the command 'make'.  You should see an error that the linker cannot find the function 'return0()'.
-  
-### 2.e) Create a C or C++ file within the main repository directory (e.g. 'cd ..' from the build directory).  Edit this file to include the header file 'src.hpp'.  Create a method called 'int return0()' that returns the number 0.
-  
-### 2.f) Add new file to library
-Open the file CMakeLists.txt.  Near the bottom, a library called 'homework' is created.  Add your file to this library (e.g. below ${SRC_SOURCES} add \<your\_filename\>)
-  
-### 2.g) Reconfigure and compile code
-Go back into the build directory and run the configuration and compile commands again.  If you get an error, this may be due to an old cache.  In this case, remove the build directory (e.g. 'rm -rf build') and redo steps 2.a through 2.d.  The library and unit tests should now compile successfully.
-  
-#### Congratulations, you now know the basics of CMake!
-  
-## Part 3 : Googletest
-Googletest will be used to autograde parts of assignments throughout this course.  You will not need to use googletest for the homeworks.  However, you will have the option of submitting your own tests for each homework for extra credit.
+### 2.b) Priority + Round-Robin Scheduler
+Add a priority + round-robin scheduler to the method 'priority_rr(...).  This scheduler should do the following:
+- The job with the highest priority runs first.  Assume priority 0 is highest, priority 1 is next highest, and so on.
+- If multiple jobs have the same priority 'p', all jobs with priority 'p' will be run round-robin
+- The round-robin portion of the scheduler will use FIFO to determine the ordering of all jobs with priority 'p'
+- When running round-robin, each job runs for a single time slice.  The value of a time slice is passed to this method as a parameter.  Assume the time slice is in the same unit as the struct value 'time' (e.g. both in seconds).
+- A job can be run with the following : jobs[i]->run_job(t) where t is the amount of time that job i should run
+- A job should not run for longer than its total amount of time.  For example, assume job 0 (idx 0) has time 4 and job 1 (idx 1) has time 3.  Also assume the time slice is 2 seconds.  If both jobs have the same priority, this method should do the following : 
+  1. Run job 0 for 2 second
+  2. Run job 1 for 2 second
+  3. Run job 0 for 2 second
+  4. Run job 1 for 1 second
 
-### 3.a) Open the file tests/additional_tests.cpp
-This is a shell of a test written with googletest.  The test is compiled with the file tests/CMakeLists.txt.
-  
-### 3.b) Edit the TEST method
-Edit this method to make sure that the method return0() returns the number 0.  This can be done with 'ASSERT_EQ(return0(), 0)'.  Additional googletest assertions are described at **http://google.github.io/googletest/reference/assertions.html**
-  
-### 3.c) Test for Correctness
-To test that your code changes and googletest unit tests are working, go back to the build folder and recompile your code ('make').  Then, run the tests with 'make test'.  This will run my provided unit tests (labeled Unit Tests) along with your new test (labeled Additional Tests).
+## Part 3 : Push to Main
+Merge all changes to the 'main' branch.  Check GitHub 'actions' to make sure all provided tests have passed.
+
+## Optional Part 4 : Googletests
+I will run your code through additional unit tests when grading the homeworks.  You are welcome to add your own tests to 'tests/additional_tests.cpp' to make sure your code is working.  If you submit any additional testing along with your homework, I will give you up to 2 points extra credit.
