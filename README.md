@@ -10,7 +10,7 @@ Create a child process with the 'fork' method
 Have the child process create a child process of its own with with the 'fork' method.  We will refer to this as the grandchild method.
 
 ### 1.c) Call appropriate methods
-Three methods have been declared in src.hpp: 'parent()', 'child()', and 'grandparent()'.  Have the grandchild process call 'grandchild()', the child process call 'child()', and the parent process call 'parent()'.
+Three methods have been declared in src.hpp: 'parent()', 'child()', and 'grandchild()'.  Have the grandchild process call 'grandchild()', the child process call 'child()', and the parent process call 'parent()'.
 
 ### 1.d) Order the processes
 Guarantee that the grandchild method is called before the child method, which is called before the parent method.
