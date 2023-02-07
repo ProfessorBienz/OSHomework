@@ -27,7 +27,7 @@ Add a priority scheduler to the method 'priority(...)'.  This scheduler should d
 - The job with the highest priority runs first.  Assume priority 0 is highest, priority 1 is next highest, and so on.
 - If multiple jobs have the same priority, the scheduler will use a FIFO scheduler for tiebreaking. 
 - Each job will run for its entirety
-- A job can be run with the following : jobs[i]->run_job(t) where t is the amount of time to run job i 
+- A job can be run with the following : jobs[i].run_job(t) where t is the amount of time to run job i 
 
 
 ### 2.b) Priority + Round-Robin Scheduler
@@ -36,7 +36,7 @@ Add a priority + round-robin scheduler to the method 'priority_rr(...).  This sc
 - If multiple jobs have the same priority 'p', all jobs with priority 'p' will be run round-robin
 - The round-robin portion of the scheduler will use FIFO to determine the ordering of all jobs with priority 'p'
 - When running round-robin, each job runs for a single time slice.  The value of a time slice is passed to this method as a parameter.  Assume the time slice is in the same unit as the struct value 'time' (e.g. both in seconds).
-- A job can be run with the following : jobs[i]->run_job(t) where t is the amount of time that job i should run
+- A job can be run with the following : jobs[i].run_job(t) where t is the amount of time that job i should run
 - A job should not run for longer than its total amount of time.  For example, assume job 0 (idx 0) has time 4 and job 1 (idx 1) has time 3.  Also assume the time slice is 2 seconds.  If both jobs have the same priority, this method should do the following : 
   1. Run job 0 for 2 second
   2. Run job 1 for 2 second
