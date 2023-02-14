@@ -1,26 +1,36 @@
 #include "cs_481_hw_src/src.hpp"
+#include <string>
+#include <algorithm>
 
-int counter = 0;
-
-void parent()
+void print_binary(int n)
 {
-    counter -= 3;
-    printf("Parent Counter %d\n", counter);
+    std::string binary_n;
+    while (n) {
+        if (n & 1)
+            binary_n.append("1");
+        else
+            binary_n.append("0");
+        n >>= 1;
+    }
+    std::reverse(binary_n.begin(), binary_n.end());
+    printf("%s\n", binary_n.c_str());
 }
 
-void child()
-{
-    counter *= 2;
-    printf("Child Counter %d\n", counter);
-}
-
-void grandchild()
-{
-    counter += 7;
-    printf("Grandchild Counter %d\n", counter);
-}
 
 int main(int argc, char* argv[])
 {
-    run_processes();
+    int virtual_address = 262735;
+    int page_size = 4096;
+
+    int vpn, offset;
+    split_virtual_address(virtual_address, page_size, &vpn, &offset);
+
+    printf("Virtual Address: ");
+    print_binary(virtual_address);
+    printf("Page Size: ");
+    print_binary(page_size);
+    printf("VPN: ");
+    print_binary(vpn);
+    printf("Offset: ");
+    print_binary(offset);
 }
