@@ -3,8 +3,6 @@
 #define BITS_PER_BYTE 8
 
 // Return the virtual page number associated with the given virtual address
-//      - page_size : size of pages
-//      - addr_bits : number of bits in virtual address
 void split_virtual_address(int virtual_address, int page_size, int* VPN, int* offset)
 {
 
@@ -23,9 +21,7 @@ void split_VPN(int VPN, int k, int* index, int* tag)
 
 
 
-// TLB is k-way associative
-//     - Find TLB entry, if it exists (return true)
-//     - Otherwise, return false
+// Find PFN from TLB (if it exists and is accessible)
 int TLB_lookup(TLB* tlb, int VPN)
 {
 
@@ -35,7 +31,7 @@ int TLB_lookup(TLB* tlb, int VPN)
 
 
 
-// Lookup VNP in Page Table
+// Find PFN in PageTable (if it exists and is accessible)
 int table_lookup(PageTable* table, TLB* tlb, int VPN)
 {
 
