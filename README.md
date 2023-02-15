@@ -7,7 +7,7 @@ The goal of this portion of the programming assignment is to convert a virtual a
 This method is passed the following parameters : 
 - ```int virtual_address``` : the virtual address of the instruction 
 - ```int page_size``` : the number of bytes per page
-- ````int* VPN``` : pointer to which method should return VPN
+- ```int* VPN``` : pointer to which method should return VPN
 - ```int* offset``` : pointer to which method should return offset
 
 Given the virtual address and page size, you should return the VPN and offset of the virtual address.  Assume the virtual address contains sizeof(int)\*BITS_PER_BYTE bits, where BITS_PER_BYTE is defined for you in the file.
