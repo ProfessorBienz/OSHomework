@@ -58,11 +58,12 @@ This method is passed the following arguments :
 - The method ```tlb->add_entry(int index, int tag, int PFN, entry->protect_bit)``` will add the variable ```PTE* entry``` to the TLB at the specified index and tag, with the protection settings given by the protect bit.
 - The variable ```entry->PFN``` holds the physical frame associated with the variable ```PTE* entry```
 
-### 1.e) From physical address : method ```get_physical_address(...)```
+### 1.e) Form physical address : method ```get_physical_address(...)```
 This method is passed the following arguments : 
 - ```int PFN``` : physical frame number
 - ```int offset``` : offset of address location within page/frame
 - ```int page_size``` : the number of bytes per page
+
 Return the physical address, which can be found by combining the PFN and offset.  Assume the physical address contains sizeof(int)\*BITS_PER_BYTE bits, where BITS_PER_BYTE is defined for you in the file.
 
 ### 1.f) Translate the virtual to physical address
