@@ -1,4 +1,4 @@
-#include "cs_481_hw2_src/src.hpp"
+#include "cs_481_hw_src/src.hpp"
 
 #define BITS_PER_BYTE 8
 
