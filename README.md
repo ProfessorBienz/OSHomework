@@ -75,8 +75,8 @@ This method is passed the following arguments :
 
 Using all of the methods that you have completed above, convert a given virtual address to
 the associated physical address. First, look for the VPN in the TLB, catching any fault that
-occurs. If a page fault is thrown, find the PFN in the Page Table instead. 
-**You will need to use a try-catch statement to catch page faults (and continue to throw any other fault with
+occurs. If a TLB miss exception is thrown, find the PFN in the Page Table instead. 
+**You will need to use a try-catch statement to catch TLB miss exceptions (and continue to throw any other fault with
 ’throw’).  This is a C++ method, but doesn't require knowledge of C++.  Information on try/catch/try is available at [Try-catch-throw-statement webpage](https://learn.microsoft.com/en-us/cpp/cpp/try-throw-and-catch-statements-cpp?view=msvc-170)**
 
 
