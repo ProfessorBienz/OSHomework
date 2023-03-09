@@ -12,7 +12,7 @@ This method is passed the following parameters :
 
 Given the virtual address and page size, you should return the VPN and offset of the virtual address.  Assume the virtual address contains sizeof(int)\*BITS_PER_BYTE bits, where BITS_PER_BYTE is defined for you in the file.
 
-### 1.b) Finding TLB tag and offset : method ```split_VPN(...)```
+### 1.b) Finding TLB tag and index : method ```split_VPN(...)```
 This method is passed the following parameters :
 - ```int VPN``` : the virtual page number
 - ```int k``` : the number of sets in the TLB (k-way associative)
@@ -57,6 +57,7 @@ This method is passed the following arguments :
 #### 1.d.5 : Finally, add the entry to the TLB and return the associated physical frame number
 - The method ```tlb->add_entry(int index, int tag, int PFN, entry->protect_bit)``` will add the variable ```PTE* entry``` to the TLB at the specified index and tag, with the protection settings given by the protect bit.
 - The variable ```entry->PFN``` holds the physical frame associated with the variable ```PTE* entry```
+- Return the PFN
 
 ### 1.e) Form physical address : method ```get_physical_address(...)```
 This method is passed the following arguments : 
@@ -75,7 +76,7 @@ This method is passed the following arguments :
 
 Using all of the methods that you have completed above, convert a given virtual address to
 the associated physical address. First, look for the VPN in the TLB, catching any fault that
-occurs. If a TLB miss exception is thrown, find the PFN in the Page Table instead. 
+occurs. If a TLB miss exception is thrown (the string thrown is "TLB Miss!"), find the PFN in the Page Table instead. 
 **You will need to use a try-catch statement to catch TLB miss exceptions (and continue to throw any other fault with
 ’throw’).  This is a C++ method, but doesn't require knowledge of C++.  Information on try/catch/try is available at [Try-catch-throw-statement webpage](https://learn.microsoft.com/en-us/cpp/cpp/try-throw-and-catch-statements-cpp?view=msvc-170)**
 
