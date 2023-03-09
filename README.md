@@ -28,7 +28,7 @@ This method is passed the following arguments :
 
 #### 1.c.1 : Search the TLB for the given VPN  
 - The value ```tlb.k``` holds the dimension of the k-way associative set.
-- The ```tlb->lookup(int index, int tag, TLB\_entry* entry)``` returns a boolean indicating whether the index and tag are currently in the TLB.  If the entry is found, it is returned in the pointer ```TLB\_entry* entry```.  Otherwise, the pointer returns as NULL.
+- The ```tlb->lookup(int index, int tag, TLB\_entry** entry)``` returns a boolean indicating whether the index and tag are currently in the TLB.  If the entry is found, it is returned in the pointer ```TLB\_entry* entry```.  Otherwise, the pointer returns as NULL.  Note, this is a double pointer used in the method.  You will want to declare a single pointer ```TLB\_entry* entry``` and then pass the address of this pointer.
 #### 1.c.2 : If the VPN is not in the TLB, throw a TLB miss exception.
 - The method ```tlb_miss()``` will throw a TLB miss exception
 #### 1.c.3 : If the table entry exists in the TLB and it cannot be accessed, throw a protection fault.
