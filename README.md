@@ -87,8 +87,7 @@ For this part of the programming assignment, you will write three different fram
 index, the more recently accessed.
 - ```int clock bit``` : the bit used for the clock algorithm (either 0 or 1).
 
-Complete the following methods, each returning a pointer to the FrameList* object selected for re-
-moval. The methods each return an integer of the number of FrameList* objects accessed throughout
+Complete the following methods, each returning a pointer to the FrameList* object selected for removal. The methods each return an integer of the number of FrameList* objects accessed throughout
 the method.
 
 ### 2.a) FIFO Replacement : method ```fifo(...)```
