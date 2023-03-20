@@ -4,7 +4,7 @@
 The goal of this portion of the programming assignment is to compute the value of pi concurrently among many threads.  The value of pi can be computed by randomly accessing points within a unit square, and computing how many of these points fall within the unit circle.  
 
 You will add your implementation into the method compute\_pi.  This method is passed a thread_data_t* struct which contains : 
-- int thread\_id : the ID associated with your thread.  This is a unique ID starting at 0.  For example, if there are three threads, they will have IDS 0, 1, and 2.
+- int thread\_id : the ID associated with your thread.  This is a unique ID starting at 0.  For example, if there are three threads, they will have IDs 0, 1, and 2.
 - calc\_t* struct that contains : 
     - int global_n_samples : the total number of samples of (x, y) coordinates to be computed
     - int global_n_threads : the total number of threads that will run this method
