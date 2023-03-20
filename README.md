@@ -1,108 +1,58 @@
-# Homework 2 : Paging and Replacement Algorithms
+# Homework 3 : Concurrency and Locks
 
-## Part 1 : Virtual Memory 
-The goal of this portion of the programming assignment is to convert a virtual address to the corresponding physical address.  You will accompilish this with five helper methods, all within the file translation.cpp
+## Part 1 : Concurrently Compute PI (compute\_pi.cpp)
+The goal of this portion of the programming assignment is to compute the value of pi concurrently among many threads.  The value of pi can be computed by randomly accessing points within a unit square, and computing how many of these points fall within the unit circle.  
 
-### 1.a) Finding VPN and Offset : method ```split_virtual_address(...)```
-This method is passed the following parameters : 
-- ```int virtual_address``` : the virtual address of the instruction 
-- ```int page_size``` : the number of bytes per page
-- ```int* VPN``` : pointer to which method should return VPN
-- ```int* offset``` : pointer to which method should return offset
+You will add your implementation into the method compute\_pi.  This method is passed a thread_data_t* struct which contains : 
+- int thread\_id : the ID associated with your thread.  This is a unique ID starting at 0.  For example, if there are three threads, they will have IDS 0, 1, and 2.
+- calc\_t* struct that contains : 
+    - int global_n_samples : the total number of samples of (x, y) coordinates to be computed
+    - int global_n_threads : the total number of threads that will run this method
+    - int global_sum : the total number of samples that fall within the unit circle.  Each thread will increment this value when a sample falls within the unit circle.  The value of the global\_sum is originally initialized to 0.
+    - lock\_t* lock : a struct containing a mutex to be used in all lock and unlock calls.  This lock contains the following methods : 
+        - init(lock_t* lock) : initializes the lock.  This is done for you before threads are initialized.
+        - lock(lock_t* lock) : this will wait until a thread receives the lock
+        - unlock(lock_t* lock) : the thread with the lock calls this method to release the lock for another thread to grab.
+        - destroy(lock_t* lock) : this destroys the struct.  This method will me called for you after your threads complete.
+        An initial implementation of the lock\_t* struct is provided for you in the file mutex\_lock.cpp within the submodule.  
+    
+The method pthread\_compute\_pi within the submodule file src.cpp initializes a number of threads so that each calls the compute\_pi method that you will be editting.  This part of the programming assignment can be completed through the subtasks described below.
 
-Given the virtual address and page size, you should return the VPN and offset of the virtual address.  Assume the virtual address contains sizeof(int)\*BITS_PER_BYTE bits, where BITS_PER_BYTE is defined for you in the file.
+### 1.a) Calculate random coordinates
+Each thread should calculate an approximately equal portion of (x,y) coordinates, so that in total the global number of samples are calculated among all threads.  Each thread should compute an equal number of samples, with threads with lowest thread ids each calculating one extra sample if the number of samples does not evenly divide the number of threads.
 
-### 1.b) Finding TLB tag and index : method ```split_VPN(...)```
-This method is passed the following parameters :
-- ```int VPN``` : the virtual page number
-- ```int k``` : the number of sets in the TLB (k-way associative)
-- ```int* index``` : pointer to which method should return TLB index
-- ```int* tag``` : pointer to which method should return TLB tag
+For each local sample, compute two random values (one for x and one for y) between -1 and 1.  **The method rand() is not thread safe!  To calculate a random sample, call thread_rand(), which is implemented for you in src.cpp.**
 
-Given the VPN and value of k, you should return the TLB index and tag.
+### 1.b) Calculate global sum 
+The variable global_sum is shared by all threads.  This variable should be incremented for each (x, y) coordinate that falls within the unit circle.  For any (x, y) coordinate from subtask 1.b, if x\*x + y\*y is less than or equal to 1, the value is within the unit circle.
 
-### 1.c) Checking TLB for PTE : method ```TLB_lookup(...)```
-This method is passed the following arguments : 
-- ```TLB* tlb``` : a pointer to a k-way associative TLB cache object
-- ```int VPN``` : the virtual page number
+### 1.c) Avoid race conditions
+Global sum is a shared variable that all threads will be updating.  As a result, this will need to be updated atomically.  **Use the provided lock to atomically update this method.  You must use the provided lock structure, and the methods lock(...) and unlock(...) to pass the autograder.**  If you were to use an atomic instruction instead, you will fail tests in later portions of the programming assignment.
 
-#### 1.c.1 : Search the TLB for the given VPN  
-- The value ```tlb.k``` holds the dimension of the k-way associative set.
-- The ```tlb->lookup(int index, int tag, TLB\_entry* entry)``` returns a boolean indicating whether the index and tag are currently in the TLB.  If the entry is found, it is returned in the pointer ```TLB\_entry* entry```.  Otherwise, the pointer returns as NULL.
-#### 1.c.2 : If the VPN is not in the TLB, throw a TLB miss exception.
-- The method ```tlb_miss()``` will throw a TLB miss exception
-#### 1.c.3 : If the table entry exists in the TLB and it cannot be accessed, throw a protection fault.
-- The method ```entry->can_access()``` returns true if and only if the entry can be accessed (e.g. is not protected).
-- The method ```protection_fault()``` throws a protection fault exception.
-#### 1.c.4 : If the VPN is in the TLB and can be accessed, return the associated physical frame number
-- The variable ```entry->PFN``` holds the physical frame number of a variable TLB_entry* entry.
+### 1.d) Gaurantee performance
+Locks are typically expensive, so make sure to avoid locking within a for loop, and the overhead will cause your program to time out within tests.  Similarly, you do not want to lock around an entire for loop, as this will remove all concurrency from your program and also cause time outs.  Instead, you want to increment a local variable within the for loop and have each thread update the shared global counter only a single time so that each thread needs to aquire the lock only once and allowing for threads to all perform the while loop (and calculate random values) concurrently.
 
-### 1.d) Search the Page Table for the given VPN : method ```table_lookup(...)```
-This method is passed the following arguments : 
-- ```PageTable* table``` : a pointer to the page table
-- ```TLB* tlb``` : a pointer to a k-way associative TLB cache object
-- ```int VPN``` : the virtual page number
-
-#### 1.d.1 : Search the Page Table for the given VPN
-- The function ```table->lookup(int VPN)``` will return the page table entry ```PTE* entry``` associated with the given VPN
-#### 1.d.2 : If the PTE is not valid, throw a segmentation fault
-- The variable ```entry->valid_bit``` holds 1 if the entry is valid, and 0 otherwise.
-- The method ```segmentation_fault()``` throws a segmentation fault exception.
-#### 1.d.3 : Otherwise, if you cannot access the entry, you will throw a protection fault
-- The method ```entry->can_access()``` will return true if and only if the entry can be accessed (e.g. is not protected)
-- The method ```protection_fault()``` throws a protection_fault exception.
-#### 1.d.4 : Otherwise, if the entry is not present in the page table, throw a page fault
-- The variable ```entry->present_bit``` will hold 1 if the page is present in main memory, and 0 otherwise.
-- The method ```page_fault()``` throws a page fault exception.
-#### 1.d.5 : Finally, add the entry to the TLB and return the associated physical frame number
-- The method ```tlb->add_entry(int index, int tag, int PFN, entry->protect_bit)``` will add the variable ```PTE* entry``` to the TLB at the specified index and tag, with the protection settings given by the protect bit.
-- The variable ```entry->PFN``` holds the physical frame associated with the variable ```PTE* entry```
-- Return the PFN
-
-### 1.e) Form physical address : method ```get_physical_address(...)```
-This method is passed the following arguments : 
-- ```int PFN``` : physical frame number
-- ```int offset``` : offset of address location within page/frame
-- ```int page_size``` : the number of bytes per page
-
-Return the physical address, which can be found by combining the PFN and offset.  Assume the physical address contains sizeof(int)\*BITS_PER_BYTE bits, where BITS_PER_BYTE is defined for you in the file.
-
-### 1.f) Translate the virtual to physical address
-This method is passed the following arguments :
-- ```int virtual_address``` : the virtual address of the instruction 
-- ```int page_size``` : the number of bytes per page
-- ```TLB* tlb``` : a pointer to a k-way associative TLB cache object
-- ```PageTable* table``` : a pointer to the page table
-
-Using all of the methods that you have completed above, convert a given virtual address to
-the associated physical address. First, look for the VPN in the TLB, catching any fault that
-occurs. If a TLB miss exception is thrown (the string thrown is "TLB Miss!"), find the PFN in the Page Table instead. 
-**You will need to use a try-catch statement to catch TLB miss exceptions (and continue to throw any other fault with
-’throw’).  This is a C++ method, but doesn't require knowledge of C++.  Information on try/catch/try is available at [Try-catch-throw-statement webpage](https://learn.microsoft.com/en-us/cpp/cpp/try-throw-and-catch-statements-cpp?view=msvc-170)**
+### 1.e) No return statement
+This method should return NULL, as originally provided for you.
 
 
-## Part 2 : Replacement Algorithms
-For this part of the programming assignment, you will write three different frame replacement algorithms. To do this, you will edit the file replacement.cpp.  Each method is passed a FrameList\* object along with a pointer to a FrameList\*. The FrameList\* object has the following methods:
-- ```FrameList* next``` : the next frame in the linked list
-- ```int idx``` : the index indicating when the associated page was last accessed. The higher the
-index, the more recently accessed.
-- ```int clock bit``` : the bit used for the clock algorithm (either 0 or 1).
+## Part 2 : Ticket Spin Lock
+The goal of this portion of the programming assignment is to implement a ticket spin lock that spins while waiting to acquire the lock.  To complete this part of the programming assignment, you will edit the methods within the file ticket_spin_lock.cpp. Some hints for creating this lock : 
+    - The lock_t* lock struct contains : 
+        - int ticket : initialized to 0
+        - int turn : initialized to 0
+    - Use the atomic method __sync_fetch_and_add(int* ticket, int addition).  This method will atomically fetch the value in ticket and add `addition' to this value.
+    - You may not need to do anything in the destroy method.
 
-Complete the following methods, each returning a pointer to the FrameList* object selected for re-
-moval. The methods each return an integer of the number of FrameList* objects accessed throughout
-the method.
+## Part 3 : Ticket Yield Lock
+The goal of this portion of the programming assignment is to implement a ticket spin lock that spins while waiting to acquire the lock.  To complete this part of the programming assignment, you will edit the methods within the file ticket_spin_lock.cpp. Some hints for creating this lock : 
+    - The lock_t* lock struct contains : 
+        - int ticket : initialized to 0
+        - int turn : initialized to 0
+    - Use the atomic method __sync_fetch_and_add(int* ticket, int addition).  This method will atomically fetch the value in ticket and add `addition' to this value.
+    - To yield control of the CPU, call the method `sched_yield()'
+    - You may not need to do anything in the destroy method.
 
-### 2.a) FIFO Replacement : method ```fifo(...)```
-Implement the first in, first out frame replacement algorithm. The FrameList\*
-linked list object is ordered by which arrived first, with the head of the list arriving least
-recently, and the tail arriving most recently. Return the number of FrameList\* objects
-accessed during this algorithm, along with the FrameList\* to be removed.
 
-### 2.b) Least Recently Used Replacement : method ```lru(...)```
-Implement the least recently used frame replacement algorithm.  Each FrameList* object holds an index for when it was last accessed. The higher the index, the more recently accessed. Assume this index is unique. Return the number of FrameList\* objects accessed during this algorithm, along with the FrameList\* to be removed.
 
-### 2.c) Approximate Least Recently Used : method ```clock_lru(...)```
-Implement the clock algorithm for approximating LRU. Start with the head of the linked list, and step through
-checking if FrameList\* object should be removed, or if the clock bit should be reset.
-Return the number of FrameList\* objects accessed during this algorithm, along with the
-FrameList\* to be removed.
+

@@ -19,7 +19,7 @@ void print_binary(int n)
 
 int main(int argc, char* argv[])
 {
-    int virtual_address = 262735;
+    int virtual_address = 8388864;
     int page_size = 4096;
 
     int vpn, offset;
