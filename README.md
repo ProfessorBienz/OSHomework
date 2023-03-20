@@ -9,11 +9,11 @@ You will add your implementation into the method compute\_pi.  This method is pa
     - int global_n_samples : the total number of samples of (x, y) coordinates to be computed
     - int global_n_threads : the total number of threads that will run this method
     - int global_sum : the total number of samples that fall within the unit circle.  Each thread will increment this value when a sample falls within the unit circle.  The value of the global\_sum is originally initialized to 0.
-    - lock\_t* lock : a struct containing a mutex to be used in all lock and unlock calls.  This lock contains the following methods : 
+    - lock\_t* lock : a struct containing a mutex to be used in all lock and unlock calls.  The following methods can be used with this lock variable : 
         - init(lock_t* lock) : initializes the lock.  This is done for you before threads are initialized.
-        - lock(lock_t* lock) : this will wait until a thread receives the lock
-        - unlock(lock_t* lock) : the thread with the lock calls this method to release the lock for another thread to grab.
-        - destroy(lock_t* lock) : this destroys the struct.  This method will me called for you after your threads complete.
+        - lock(lock_t* lock) :  waits until a thread receives the lock.
+        - unlock(lock_t* lock) : releases the lock for another thread to grab.
+        - destroy(lock_t* lock) : destroys the struct.  This method will me called for you after your threads complete.
         An initial implementation of the lock\_t* struct is provided for you in the file mutex\_lock.cpp within the submodule.  
     
 The method pthread\_compute\_pi within the submodule file src.cpp initializes a number of threads so that each calls the compute\_pi method that you will be editting.  This part of the programming assignment can be completed through the subtasks described below.
