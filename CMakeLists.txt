@@ -43,11 +43,36 @@ add_subdirectory(cs_481_hw_src)
 
 # Create Library
 # TODO : Include your new file here!
-add_library(homework STATIC
+add_library(mutex STATIC
     ${src_SOURCES}
-    translation.cpp
-    replacement.cpp
+    cs_481_hw_src/mutex_lock.cpp
+    compute_pi.cpp
     )
+
+add_library(ticket_spin STATIC
+    ${src_SOURCES}
+    compute_pi.cpp
+    ticket_spin_lock.cpp
+    )
+
+add_library(ticket_yield STATIC
+    ${src_SOURCES}
+    compute_pi.cpp
+    ticket_yield_lock.cpp
+    )
+
+add_library(queue STATIC
+    ${src_SOURCES}
+    compute_pi.cpp
+    queue_lock.cpp
+    )
+
+add_library(semaphore STATIC
+    ${src_SOURCES}
+    compute_pi.cpp
+    semaphore_lock.cpp
+    )
+
 
 # Add Directory with Professor's Unit Tests
 add_subdirectory(cs_481_hw_src/tests)

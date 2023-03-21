@@ -1,36 +1,25 @@
 #include "cs_481_hw_src/src.hpp"
-#include <string>
-#include <algorithm>
 
-void print_binary(int n)
+#include <sys/wait.h>
+#include <sys/time.h>
+#include <cmath>
+
+double get_time()
 {
-    std::string binary_n;
-    while (n) {
-        if (n & 1)
-            binary_n.append("1");
-        else
-            binary_n.append("0");
-        n >>= 1;
-    }
-    std::reverse(binary_n.begin(), binary_n.end());
-    printf("%s\n", binary_n.c_str());
+    struct timeval timecheck;
+    gettimeofday(&timecheck, NULL);
+    return (double)timecheck.tv_sec + (double)timecheck.tv_usec*1e-6;
 }
-
 
 int main(int argc, char* argv[])
 {
-    int virtual_address = 8388864;
-    int page_size = 4096;
-
-    int vpn, offset;
-    split_virtual_address(virtual_address, page_size, &vpn, &offset);
-
-    printf("Virtual Address: ");
-    print_binary(virtual_address);
-    printf("Page Size: ");
-    print_binary(page_size);
-    printf("VPN: ");
-    print_binary(vpn);
-    printf("Offset: ");
-    print_binary(offset);
+    int num_samples = 10000000;
+    for (int i = 0; i < 9; i++)
+    {
+        int num_threads = pow(2, i);
+        double t0 = get_time();
+        double pi = pthread_compute_pi(num_threads, num_samples);
+        double tfinal = get_time() - t0;
+        printf("PI Approximation : %e, Time to compute: %e, Num Threads %d, Num Samples %d\n", pi, tfinal, num_threads, num_samples);
+    }
 }
