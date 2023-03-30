@@ -73,6 +73,12 @@ add_library(semaphore STATIC
     semaphore_lock.cpp
     )
 
+target_link_libraries(mutex pthread)
+target_link_libraries(ticket_spin pthread)
+target_link_libraries(ticket_yield pthread)
+target_link_libraries(queue pthread)
+target_link_libraries(semaphore pthread)
+
 
 # Add Directory with Professor's Unit Tests
 add_subdirectory(cs_481_hw_src/tests)
