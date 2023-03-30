@@ -43,36 +43,31 @@ add_subdirectory(cs_481_hw_src)
 
 # Create Library
 # TODO : Include your new file here!
-add_library(mutex STATIC
+add_library(cond_var STATIC
     ${src_SOURCES}
-    cs_481_hw_src/mutex_lock.cpp
-    compute_pi.cpp
-    )
-
-add_library(ticket_spin STATIC
-    ${src_SOURCES}
-    compute_pi.cpp
-    ticket_spin_lock.cpp
-    )
-
-add_library(ticket_yield STATIC
-    ${src_SOURCES}
-    compute_pi.cpp
-    ticket_yield_lock.cpp
-    )
-
-add_library(queue STATIC
-    ${src_SOURCES}
-    compute_pi.cpp
-    queue_lock.cpp
+    condition_var.cpp
     )
 
 add_library(semaphore STATIC
     ${src_SOURCES}
-    compute_pi.cpp
-    semaphore_lock.cpp
+    semaphore.cpp
     )
 
+add_library(circular STATIC
+    ${src_SOURCES}
+    circular.cpp
+    )
+
+add_library(hold_and_wait STATIC
+    ${src_SOURCES}
+    hold_and_wait.cpp
+    )
+
+
+target_link_libraries(cond_var pthread)
+target_link_libraries(semaphore pthread)
+target_link_libraries(hold_and_wait pthread)
+target_link_libraries(circular pthread)
 
 # Add Directory with Professor's Unit Tests
 add_subdirectory(cs_481_hw_src/tests)
