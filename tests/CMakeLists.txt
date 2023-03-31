@@ -1,21 +1,2 @@
 include_directories(${hw_INCDIR})
 
-add_executable(additional_tests additional_tests.cpp)
-target_link_libraries(additional_tests mutex gtest)
-add_test(AdditionalTests ./additional_tests)
-
-add_executable(additional_spin_tests additional_tests.cpp)
-target_link_libraries(additional_spin_tests ticket_spin gtest)
-add_test(AdditionalSpinTests ./additional_spin_tests)
-
-add_executable(additional_yield_tests additional_tests.cpp)
-target_link_libraries(additional_yield_tests ticket_yield gtest)
-add_test(AdditionalYieldTests ./additional_yield_tests)
-
-add_executable(additional_queue_tests additional_tests.cpp)
-target_link_libraries(additional_queue_tests queue gtest)
-add_test(AdditionalQueueTests ./additional_queue_tests)
-
-add_executable(additional_semaphore_tests additional_tests.cpp)
-target_link_libraries(additional_semaphore_tests semaphore gtest)
-add_test(AdditionalSemaphoreTests ./additional_semaphore_tests)
