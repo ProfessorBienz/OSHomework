@@ -58,7 +58,7 @@ The goal of this portion of the programming assignment is to create a lcok that 
 - The lock_t* lock struct contains:
     - int flag : intialized to 0
     - int guard : initialized to 0
-    - queue_t : a queue struct.  The available methods for manipulating this queue are : 
+    - queue_t queue : a queue struct.  The available methods for manipulating this queue are : 
         - queue_init(queue_t queue) : intializes an empty queue
         - queue_add(queue_t queue, pthread_t thread) : adds `thread' to the back of the queue
         - queue_remove(queue_t queue) : removes the first thread from the queue, returning the pthread_t of the associated thread's call to pthread_self()
