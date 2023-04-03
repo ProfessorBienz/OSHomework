@@ -39,8 +39,8 @@ This method should return NULL, as originally provided for you.
 ## Part 2 : Ticket Spin Lock
 The goal of this portion of the programming assignment is to implement a ticket spin lock that spins while waiting to acquire the lock.  To complete this part of the programming assignment, you will edit the methods within the file ticket_spin_lock.cpp. Some hints for creating this lock : 
 - The lock_t* lock struct contains : 
-    - int ticket : initialized to 0
-    - int turn : initialized to 0
+    - int ticket : you should initialize this to 0
+    - int turn : you should initialize this to 0
 - Use the atomic method __sync_fetch_and_add(int* ticket, int addition).  This method will atomically fetch the value in ticket and add `addition' to this value.
 - You may not need to do anything in the destroy method.
 
@@ -61,13 +61,14 @@ The goal of this portion of the programming assignment is to create a lcok that 
     - queue_t : a queue struct.  The available methods for manipulating this queue are : 
         - queue_init(queue_t queue) : intializes an empty queue
         - queue_add(queue_t queue, pthread_t thread) : adds `thread' to the back of the queue
-        - queue_remove(queue_t queue) : removes the first thread from the queue, returning
+        - queue_remove(queue_t queue) : removes the first thread from the queue, returning the pthread_t of the associated thread's call to pthread_self()
         - queue_empty(queue_t queue) : returns 1 if the queue is empty, 0 otherwise
 - The atomic method __sync_lock_test_and_set(int* ptr, int val) will atomically set the ptr to the passed value if not already equal to val.   It will return what was originally in the ptr.
 - The method `pause()' will cause a thread to sleep indefinitely.
 - The method pthread_kill(pthread_t thread, int signal) will wake up the given thread and pass the given signal to the thread.  The signal SIGCONT tells the thread to continue (e.g. moves the thread back to the ready queue)
 - The method pthread_self() returns the pthread_id of the calling thread, which is of type pthread_t (and should be added to the queue when needed).
 - You may not need to do anything in the destroy method.
+- SIGCONT seems to not work on some computers.  If you have issues with this, you can create your own signal handler.  To do so, create a method that does nothing (which is what you want threads to do when you wake them with this signal).  Then, each thread should initialize the signal handler before adding itself to the queue with 'signal(SIGUSR1, your_sig_handler_method_name);'  Instead of passing SIGCONT to your pthread_kill, you can now pass SIGUSR1.
 
 ## Part 5 : Semaphore Lock
 The goal of this portion of the programming assignment is to create a semaphore lock.  To complete this part of the assignment, you will edit the methods in the file `semaphore_lock.cpp'.  The lock(...) method will operate equivalently to a semaphore wait(...) method while the unlock(...) method will be equivalent to a semaphore signal(...).  Some hints for completing this method : 
@@ -79,6 +80,8 @@ The goal of this portion of the programming assignment is to create a semaphore 
 - The atomic method __sync_fetch_and_add(int* ptr, int var) will atomically add var to the current value in ptr
 - The atomic method __sync_fetch_and_sub(int* ptr, int var) will automatically subtract var from the current value in ptr
 - The variable pthread_mutex_t will need to be initialized and destroyed.
+
+Do not include the semaphore header file.  You are to implement your own semaphore rather than using that which is provided to you in C.
 
 
 
