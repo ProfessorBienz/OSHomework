@@ -43,31 +43,9 @@ add_subdirectory(cs_481_hw_src)
 
 # Create Library
 # TODO : Include your new file here!
-add_library(cond_var STATIC
+add_library(homework STATIC
     ${src_SOURCES}
-    condition_var.cpp
     )
-
-add_library(semaphore STATIC
-    ${src_SOURCES}
-    semaphore.cpp
-    )
-
-add_library(circular STATIC
-    ${src_SOURCES}
-    circular.cpp
-    )
-
-add_library(hold_and_wait STATIC
-    ${src_SOURCES}
-    hold_and_wait.cpp
-    )
-
-
-target_link_libraries(cond_var pthread)
-target_link_libraries(semaphore pthread)
-target_link_libraries(hold_and_wait pthread)
-target_link_libraries(circular pthread)
 
 # Add Directory with Professor's Unit Tests
 add_subdirectory(cs_481_hw_src/tests)
