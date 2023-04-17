@@ -45,6 +45,7 @@ add_subdirectory(cs_481_hw_src)
 # TODO : Include your new file here!
 add_library(homework STATIC
     ${src_SOURCES}
+    file_system.cpp
     )
 
 # Add Directory with Professor's Unit Tests
