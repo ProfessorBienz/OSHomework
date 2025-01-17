@@ -1,4 +1,3 @@
-# cs_481_homework
-This repository contains all template code for the homeworks throughout CS481/ECE437.
+## The main branch for OSHomework
 
-### To get started, checkout the branch corresponding to your current homework assignment.
+## Checkout the branch corresponding to the homework assignment you are looking for.
