@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 
 # Project Name 
 project(homework)
-set(SOURCE_NAME "Homework-Source-Template")
+set(SOURCE_NAME "OSHomeworkSource")
 
 # Sets Language to C++, Uses C++11
 enable_language(CXX)
