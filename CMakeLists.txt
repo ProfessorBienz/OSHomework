@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 
 # Project Name 
 project(homework)
+set(SOURCE_NAME "Homework-Source-Template")
 
 # Sets Language to C++, Uses C++11
 enable_language(CXX)
@@ -15,7 +16,8 @@ set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wredundant-decls -Wcast-align -Wshadow")
 
 # Will Include Files in Current Directory
-set(hw_INCDIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(hw_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(src_DIR ${CMAKE_CURRENT_SOURCE_DIR}/${SOURCE_NAME})
 
 ##################### 
 ## GOOGLETEST      ##
@@ -39,8 +41,11 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 #####################
 
+include_directories(${src_DIR})
+include_directories(${hw_DIR})
+
 # Add SRC Directory with Professor's Starter Code
-add_subdirectory(cs_481_hw_src)
+add_subdirectory(${SOURCE_NAME})
 
 # Create Library
 # TODO : Include your new file here!
@@ -49,8 +54,7 @@ add_library(homework STATIC
     )
 
 # Add Directory with Professor's Unit Tests
-add_subdirectory(cs_481_hw_src/tests)
+add_subdirectory(${SOURCE_NAME}/tests)
 
-# Add Directory with Your Additional Unit Tests
-add_subdirectory(tests)
+
 
