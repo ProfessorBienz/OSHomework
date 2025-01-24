@@ -1,4 +1,3 @@
-[submodule "cs_481_hw_src"]
-	path = cs_481_hw_src
-    url = https://github.com/ProfessorBienz/cs_481_hw_src.git
-    branch = homework1_src
+[submodule "OSHomeworkSource"]
+	path = OSHomeworkSource
+	url = https://github.com/ProfessorBienz/OSHomeworkSource.git
