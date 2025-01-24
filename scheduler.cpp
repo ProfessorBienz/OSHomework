@@ -1,4 +1,4 @@
-#include "cs_481_hw_src/src.hpp"
+#include "src.hpp"
 
 // Priority Scheduling 
 //   -- Jobs with highest priority (lowest number) run first
